@@ -8,17 +8,111 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate ()
+
+
+@interface AppDelegate (){
+    myViewController  *navViewController;
+    CLLocationManager *locationManager;
+}
+
 
 @end
 
+
 @implementation AppDelegate
+
+//@synthesize navViewController;
+//@synthesize locationManager;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    set_debug_level(5);
+    debug_msg(1,@"application didFinishLaunchingWithOptions:");
+    
+    self.navViewController = [self.window rootViewController];
+    
+    [self locationInit];
+    
     return YES;
 }
+
+
+#pragma mark -
+#pragma mark Location Service
+
+-(void) locationInit {
+    if( [CLLocationManager locationServicesEnabled] != YES ){
+        _locationManager = NULL;
+        debug_msg(0,@"! LOCATION SERVICE NOT AVAILABLE!");
+        UIAlertView* warningPopUp = [[UIAlertView alloc]
+                                     initWithTitle:@"No Location Services!"
+                                     message:@"Location services are not enabled/available. "
+                                     delegate:nil
+                                     cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil];
+        [warningPopUp show];
+        return;
+    }
+    
+    if (nil == locationManager){
+        debug_msg(1,@"Initial locationManager was nil");
+        _locationManager = [[CLLocationManager alloc] init];
+    }
+    // set/reset:
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    // locationManager.distanceFilter = 1; // meters
+    
+    // iOS 8 and beyond require that you request authorization
+    if( [self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        debug_msg(1,@"Requesting authorization for Location services....");
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
+    [self.locationManager startUpdatingLocation];
+    debug_msg(2,@"Location service started updating.");
+}
+
+
+
+
+
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    debug_msg(1,@"locationManager didUpdateLocations");
+    
+    CLLocation* location = [locations lastObject];
+    NSDate* eventDate = location.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    
+    if (fabs(howRecent) < 15.0) {
+        // If the event is recent, do something with it.
+        NSLog(@"latitude %+.6f, longitude %+.6f, altitude %+.6f \n",
+              location.coordinate.latitude,
+              location.coordinate.longitude,
+              location.altitude);
+            //TODO: save data here
+    }
+
+    debug_msg(1,@"AppDelegate wants to updateView...");
+    [self.navViewController updateView];
+}
+
+
+
+
+
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error {
+    debug_msg(0,@"!locationManager didFailWithError!! ");
+    
+}
+
+
+#pragma mark -
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {

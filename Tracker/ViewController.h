@@ -7,9 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "debug_msg.h"
 
-@interface ViewController : UIViewController
 
+@interface myViewController : UIViewController
+
+
+@property (strong,nonatomic) id<UIApplicationDelegate> dg;
+@property (strong,nonatomic)    IBOutlet UILabel *LonLabel;
+@property (strong,nonatomic)    IBOutlet UILabel *LatLabel;
+@property (strong,nonatomic)    IBOutlet UILabel *AltmLabel;
+@property (strong,nonatomic)    IBOutlet UILabel *AltftLabel;
+@property (strong,nonatomic)    IBOutlet UILabel *SpeedLabel;
+@property (strong,nonatomic)    IBOutlet UILabel *BearingLabel;
+
+
+- (void) updateView;
 
 @end
 

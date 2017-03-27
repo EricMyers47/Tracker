@@ -7,11 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
+#import "ViewController.h"
+#import "debug_msg.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate,
+                                      CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) myViewController *navViewController;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 
+
+-(void)locationInit;
 
 @end
 
