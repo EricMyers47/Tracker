@@ -8,19 +8,20 @@
 
 #import "ViewController.h"
 
-@interface myViewController (){
+@interface dataViewController (){
     id<UIApplicationDelegate> dg;
-    
+    CLLocationManager  *locationManager;
     IBOutlet UILabel *LonLabel;
     IBOutlet UILabel *LatLabel;
     IBOutlet UILabel *AltmLabel;
     IBOutlet UILabel *AltftLabel;
     IBOutlet UILabel *SpeedLabel;
     IBOutlet UILabel *BearingLabel;
+    IBOutlet UILabel *TimeLabel;
 }
 @end
 
-@implementation myViewController
+@implementation dataViewController
 
 @synthesize dg;
 @synthesize LonLabel;
@@ -29,6 +30,7 @@
 @synthesize AltftLabel;
 @synthesize SpeedLabel;
 @synthesize BearingLabel;
+@synthesize TimeLabel;
 
 #pragma mark -
 
@@ -43,7 +45,7 @@
     BearingLabel.text = @"000.1";
     AltmLabel.text = @"47 m";
     AltftLabel.text = @"???.? ft";
-    
+    [self locationInit];
     debug_msg(5,@"viewDidLoad");
 }
 
@@ -51,6 +53,95 @@
 - (void) updateView {
     // triggered by AppDelegate, this should get latest data and display it
     debug_msg(2,@"ViewController: updateView");
+}
+
+#pragma mark -
+#pragma mark Location Service
+
+-(void) locationInit {
+    if( [CLLocationManager locationServicesEnabled] != YES ){
+        _locationManager = NULL;
+        debug_msg(0,@"! LOCATION SERVICE NOT AVAILABLE!");
+        UIAlertView* warningPopUp = [[UIAlertView alloc]
+                                     initWithTitle:@"No Location Services!"
+                                     message:@"Location services are not enabled/available. "
+                                     delegate:nil
+                                     cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil];
+        [warningPopUp show];
+        return;
+    }
+    
+    if (nil == locationManager){
+        debug_msg(1,@"Initial locationManager was nil");
+        _locationManager = [[CLLocationManager alloc] init];
+    }
+    // set/reset:
+    _locationManager.delegate = self;
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+    // locationManager.distanceFilter = 1; // meters
+    
+    // iOS 8 and beyond require that you request authorization
+    if( [self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+        debug_msg(1,@"Requesting authorization for Location services....");
+        [self.locationManager requestWhenInUseAuthorization];
+    }
+    
+    [self.locationManager startUpdatingLocation];
+    debug_msg(2,@"Location service started updating.");
+}
+
+
+
+
+
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    debug_msg(1,@"locationManager didUpdateLocations");
+    
+    CLLocation* location = [locations lastObject];
+    NSDate* eventDate = location.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
+    
+    if (fabs(howRecent) < 15.0) {
+        // If the event is recent, do something with it.
+        NSLog(@"latitude %+.6f, longitude %+.6f, altitude %+.6f \n",
+              location.coordinate.latitude,
+              location.coordinate.longitude,
+              location.altitude);
+        self.LonLabel.text = [NSString stringWithFormat:@"%+.6f",
+                              location.coordinate.longitude];
+        self.LatLabel.text = [NSString stringWithFormat:@"%+.6f",
+                             location.coordinate.latitude];
+        self.AltmLabel.text = [NSString stringWithFormat:@"%.1f",
+                              location.altitude];
+        self.AltftLabel.text = [NSString stringWithFormat:@"%.1f",
+                               location.altitude/0.3048];
+        self.SpeedLabel.text = [NSString stringWithFormat:@"%+.1f",
+                               location.speed];
+        self.BearingLabel.text = [NSString stringWithFormat:@"%+.0f",
+                               location.course];
+        self.TimeLabel.text = [NSDateFormatter localizedStringFromDate:location.timestamp
+                                                             dateStyle:NSDateFormatterLongStyle
+                                                             timeStyle:NSDateFormatterLongStyle];
+                                  ;
+
+        
+
+        
+        //TODO: save data here
+    }
+    
+    debug_msg(1,@"dataViewControlloer wants to updateView...");
+    [self updateView];
+}
+
+
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error {
+    debug_msg(0,@"!locationManager didFailWithError!! ");
+    
 }
 
 
