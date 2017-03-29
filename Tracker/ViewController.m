@@ -11,6 +11,7 @@
 @interface dataViewController (){
     id<UIApplicationDelegate> dg;
     CLLocationManager  *locationManager;
+    NSDateFormatter  *dateFormatter;
     IBOutlet UILabel *LonLabel;
     IBOutlet UILabel *LatLabel;
     IBOutlet UILabel *AltmLabel;
@@ -36,8 +37,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+ 
+    // Get app delegate
     dg = [[UIApplication sharedApplication] delegate];
+    
+    dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy MMM dd   HH:mm:ss"];
     
     LonLabel.text = @"-??.?????";
     LatLabel.text = @"+??.?????";
@@ -110,9 +115,8 @@
               location.coordinate.longitude,
               location.altitude);
         
-        self.TimeLabel.text = [NSDateFormatter localizedStringFromDate:location.timestamp
-                                                             dateStyle:NSDateFormatterLongStyle
-                                                             timeStyle:NSDateFormatterLongStyle];
+        self.TimeLabel.text = [dateFormatter stringFromDate:location.timestamp ];
+        
         self.LonLabel.text = [NSString stringWithFormat:@"%+9.5f",
                               location.coordinate.longitude];
         self.LatLabel.text = [NSString stringWithFormat:@"%+8.5f",
