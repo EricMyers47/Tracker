@@ -30,7 +30,8 @@
     self.navViewController = [self.window rootViewController];
     
 
-    
+    // This keeps the screen from going black, but it might eat more power 
+    [[UIApplication sharedApplication] setIdleTimerDisabled: YES];
     return YES;
 }
 

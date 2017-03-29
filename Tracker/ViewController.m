@@ -132,8 +132,8 @@
             self.LonLabel.textColor = [UIColor redColor];
         }
         else {
-            self.LatLabel.textColor = [UIColor blackColor];
-            self.LonLabel.textColor = [UIColor blackColor];
+            self.LatLabel.textColor = [UIColor whiteColor];
+            self.LonLabel.textColor = [UIColor whiteColor];
         }
         
         if( location.verticalAccuracy < 0 ) {
@@ -141,25 +141,28 @@
             self.AltftLabel.textColor = [UIColor redColor];
         }
         else {
-            self.AltmLabel.textColor = [UIColor blackColor];
-            self.AltftLabel.textColor = [UIColor blackColor];
+            self.AltmLabel.textColor = [UIColor whiteColor];
+            self.AltftLabel.textColor = [UIColor whiteColor];
         }
 
         
-        if( location.course < 0 )
+        if( location.course < 0 ) {
             self.CourseLabel.textColor = [UIColor redColor];
-        else
-            self.CourseLabel.textColor = [UIColor blackColor];
+            self.CourseLabel.text = @"?";
+        }
+        else{
+            self.CourseLabel.textColor = [UIColor whiteColor];
+        }
         
         if( location.speed < 0 )
             self.SpeedLabel.textColor = [UIColor redColor];
         else
-            self.SpeedLabel.textColor = [UIColor blackColor];
+            self.SpeedLabel.textColor = [UIColor whiteColor];
         
         //TODO: save data here, once per second
     }
     
-    debug_msg(1,@"dataViewControlloer wants to updateView...");
+    debug_msg(6,@"dataViewControlloer wants to updateView...");
     [self updateView];
 }
 
