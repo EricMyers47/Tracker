@@ -16,7 +16,7 @@
     IBOutlet UILabel *AltmLabel;
     IBOutlet UILabel *AltftLabel;
     IBOutlet UILabel *SpeedLabel;
-    IBOutlet UILabel *BearingLabel;
+    IBOutlet UILabel *CourseLabel;
     IBOutlet UILabel *TimeLabel;
 }
 @end
@@ -29,7 +29,7 @@
 @synthesize AltmLabel;
 @synthesize AltftLabel;
 @synthesize SpeedLabel;
-@synthesize BearingLabel;
+@synthesize CourseLabel;
 @synthesize TimeLabel;
 
 #pragma mark -
@@ -42,7 +42,7 @@
     LonLabel.text = @"-??.?????";
     LatLabel.text = @"+??.?????";
     SpeedLabel.text = @"0.00 m/s";
-    BearingLabel.text = @"000.1";
+    CourseLabel.text = @"000.1";
     AltmLabel.text = @"47 m";
     AltftLabel.text = @"???.? ft";
     [self locationInit];
@@ -109,27 +109,54 @@
               location.coordinate.latitude,
               location.coordinate.longitude,
               location.altitude);
-        self.LonLabel.text = [NSString stringWithFormat:@"%+.6f",
-                              location.coordinate.longitude];
-        self.LatLabel.text = [NSString stringWithFormat:@"%+.6f",
-                             location.coordinate.latitude];
-        self.AltmLabel.text = [NSString stringWithFormat:@"%.1f",
-                              location.altitude];
-        self.AltftLabel.text = [NSString stringWithFormat:@"%.1f",
-                               location.altitude/0.3048];
-        self.SpeedLabel.text = [NSString stringWithFormat:@"%+.1f",
-                               location.speed];
-        self.BearingLabel.text = [NSString stringWithFormat:@"%+.0f",
-                               location.course];
+        
         self.TimeLabel.text = [NSDateFormatter localizedStringFromDate:location.timestamp
                                                              dateStyle:NSDateFormatterLongStyle
                                                              timeStyle:NSDateFormatterLongStyle];
-                                  ;
+        self.LonLabel.text = [NSString stringWithFormat:@"%+9.5f",
+                              location.coordinate.longitude];
+        self.LatLabel.text = [NSString stringWithFormat:@"%+8.5f",
+                             location.coordinate.latitude];
+        self.AltmLabel.text = [NSString stringWithFormat:@"%8.1f",
+                              location.altitude];
+        self.AltftLabel.text = [NSString stringWithFormat:@"%8.1f",
+                               location.altitude/0.3048];
+        self.SpeedLabel.text = [NSString stringWithFormat:@"%5.1f",
+                               location.speed];
+        self.CourseLabel.text = [NSString stringWithFormat:@"%3.0f",
+                               location.course];
+        
+        
+        if( location.horizontalAccuracy < 0 ) {
+            self.LatLabel.textColor = [UIColor redColor];
+            self.LonLabel.textColor = [UIColor redColor];
+        }
+        else {
+            self.LatLabel.textColor = [UIColor blackColor];
+            self.LonLabel.textColor = [UIColor blackColor];
+        }
+        
+        if( location.verticalAccuracy < 0 ) {
+            self.AltmLabel.textColor = [UIColor redColor];
+            self.AltftLabel.textColor = [UIColor redColor];
+        }
+        else {
+            self.AltmLabel.textColor = [UIColor blackColor];
+            self.AltftLabel.textColor = [UIColor blackColor];
+        }
 
         
-
+        if( location.course < 0 )
+            self.CourseLabel.textColor = [UIColor redColor];
+        else
+            self.CourseLabel.textColor = [UIColor blackColor];
         
-        //TODO: save data here
+        if( location.speed < 0 )
+            self.SpeedLabel.textColor = [UIColor redColor];
+        else
+            self.SpeedLabel.textColor = [UIColor blackColor];
+        
+        //TODO: save data here, once per second
     }
     
     debug_msg(1,@"dataViewControlloer wants to updateView...");
@@ -140,7 +167,8 @@
 
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error {
-    debug_msg(0,@"!locationManager didFailWithError!! ");
+    debug_msg(0,@"!locationManager didFailWithError!! %s ", error.localizedDescription);
+    
     
 }
 

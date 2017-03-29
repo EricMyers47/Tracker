@@ -21,7 +21,7 @@
 @property (strong,nonatomic)    IBOutlet UILabel *AltmLabel;
 @property (strong,nonatomic)    IBOutlet UILabel *AltftLabel;
 @property (strong,nonatomic)    IBOutlet UILabel *SpeedLabel;
-@property (strong,nonatomic)    IBOutlet UILabel *BearingLabel;
+@property (strong,nonatomic)    IBOutlet UILabel *CourseLabel;
 @property (strong,nonatomic)    IBOutlet UILabel *TimeLabel;
 
 - (void) updateView;
