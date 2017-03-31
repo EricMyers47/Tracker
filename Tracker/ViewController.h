@@ -16,15 +16,15 @@
 
 @property (strong,nonatomic) id<UIApplicationDelegate> dg;
 @property (strong, nonatomic) CLLocationManager *locationManager;
-@property (strong,nonatomic)    IBOutlet UILabel *LonLabel;
-@property (strong,nonatomic)    IBOutlet UILabel *LatLabel;
-@property (strong,nonatomic)    IBOutlet UILabel *AltmLabel;
-@property (strong,nonatomic)    IBOutlet UILabel *AltftLabel;
-@property (strong,nonatomic)    IBOutlet UILabel *SpeedLabel;
-@property (strong,nonatomic)    IBOutlet UILabel *CourseLabel;
-@property (strong,nonatomic)    IBOutlet UILabel *TimeLabel;
+@property (strong,nonatomic)    IBOutlet UILabel *LonValue;
+@property (strong,nonatomic)    IBOutlet UILabel *LatValue;
+@property (strong,nonatomic)    IBOutlet UILabel *AltmValue;
+@property (strong,nonatomic)    IBOutlet UILabel *AltftValue;
+@property (strong,nonatomic)    IBOutlet UILabel *SpeedValue;
+@property (strong,nonatomic)    IBOutlet UILabel *CourseValue;
+@property (strong,nonatomic)    IBOutlet UILabel *TimeDisplay;
 
 - (void) updateView;
-
+- (void)locationInit;
 @end
 

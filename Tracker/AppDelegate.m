@@ -11,7 +11,7 @@
 
 
 @interface AppDelegate (){
-    dataViewController* navViewController;
+    dataViewController* mainViewController;
 
 }
 
@@ -21,14 +21,24 @@
 
 @implementation AppDelegate
 
+@synthesize window = _window;
+@synthesize mainViewController = _mainViewController;
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     set_debug_level(5);
+   
     debug_msg(1,@"application didFinishLaunchingWithOptions:");
     
-    self.navViewController = [self.window rootViewController];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.mainViewController = [[dataViewController alloc] initWithNibName:@"MainWindow" bundle:nil];
     
+    self.window.rootViewController = self.mainViewController;
+    [self.window addSubview:mainViewController.view];
+    [self.window makeKeyAndVisible];
+    
+    //self.mainViewController = [self.window rootViewController];
 
     // This keeps the screen from going black, but it might eat more power 
     [[UIApplication sharedApplication] setIdleTimerDisabled: YES];

@@ -11,27 +11,27 @@
 @interface dataViewController (){
     id<UIApplicationDelegate> dg;
     CLLocationManager  *locationManager;
-    NSDateFormatter  *dateFormatter;
-    IBOutlet UILabel *LonLabel;
-    IBOutlet UILabel *LatLabel;
-    IBOutlet UILabel *AltmLabel;
-    IBOutlet UILabel *AltftLabel;
-    IBOutlet UILabel *SpeedLabel;
-    IBOutlet UILabel *CourseLabel;
-    IBOutlet UILabel *TimeLabel;
+    NSDateFormatter    *dateFormatter;
+    IBOutlet UILabel *LonValue;
+    IBOutlet UILabel *LatValue;
+    IBOutlet UILabel *AltmValue;
+    IBOutlet UILabel *AltftValue;
+    IBOutlet UILabel *SpeedValue;
+    IBOutlet UILabel *CourseValue;
+    IBOutlet UILabel *TimeDisplay;
 }
 @end
 
 @implementation dataViewController
 
 @synthesize dg;
-@synthesize LonLabel;
-@synthesize LatLabel;
-@synthesize AltmLabel;
-@synthesize AltftLabel;
-@synthesize SpeedLabel;
-@synthesize CourseLabel;
-@synthesize TimeLabel;
+@synthesize LonValue;
+@synthesize LatValue;
+@synthesize AltmValue;
+@synthesize AltftValue;
+@synthesize SpeedValue;
+@synthesize CourseValue;
+@synthesize TimeDisplay;
 
 #pragma mark -
 
@@ -44,12 +44,12 @@
     dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy MMM dd   HH:mm:ss"];
     
-    LonLabel.text = @"-??.?????";
-    LatLabel.text = @"+??.?????";
-    SpeedLabel.text = @"0.00 m/s";
-    CourseLabel.text = @"000.1";
-    AltmLabel.text = @"47 m";
-    AltftLabel.text = @"???.? ft";
+    LonValue.text = @"-??.?????";
+    LatValue.text = @"+??.?????";
+    SpeedValue.text = @"0.00 m/s";
+    CourseValue.text = @"000.1";
+    AltmValue.text = @"47 m";
+    AltftValue.text = @"???.? ft";
     [self locationInit];
     debug_msg(5,@"viewDidLoad");
 }
@@ -115,53 +115,53 @@
               location.coordinate.longitude,
               location.altitude);
         
-        self.TimeLabel.text = [dateFormatter stringFromDate:location.timestamp ];
+        self.TimeDisplay.text = [dateFormatter stringFromDate:location.timestamp ];
         
-        self.LonLabel.text = [NSString stringWithFormat:@"%+9.5f",
+        self.LonValue.text = [NSString stringWithFormat:@"%+9.5f",
                               location.coordinate.longitude];
-        self.LatLabel.text = [NSString stringWithFormat:@"%+8.5f",
+        self.LatValue.text = [NSString stringWithFormat:@"%+8.5f",
                              location.coordinate.latitude];
-        self.AltmLabel.text = [NSString stringWithFormat:@"%8.1f",
+        self.AltmValue.text = [NSString stringWithFormat:@"%8.1f",
                               location.altitude];
-        self.AltftLabel.text = [NSString stringWithFormat:@"%8.1f",
+        self.AltftValue.text = [NSString stringWithFormat:@"%8.1f",
                                location.altitude/0.3048];
-        self.SpeedLabel.text = [NSString stringWithFormat:@"%5.1f",
+        self.SpeedValue.text = [NSString stringWithFormat:@"%5.1f",
                                location.speed];
-        self.CourseLabel.text = [NSString stringWithFormat:@"%3.0f",
+        self.CourseValue.text = [NSString stringWithFormat:@"%3.0f",
                                location.course];
         
         
         if( location.horizontalAccuracy < 0 ) {
-            self.LatLabel.textColor = [UIColor redColor];
-            self.LonLabel.textColor = [UIColor redColor];
+            self.LatValue.textColor = [UIColor redColor];
+            self.LonValue.textColor = [UIColor redColor];
         }
         else {
-            self.LatLabel.textColor = [UIColor whiteColor];
-            self.LonLabel.textColor = [UIColor whiteColor];
+            self.LatValue.textColor = [UIColor whiteColor];
+            self.LonValue.textColor = [UIColor whiteColor];
         }
         
         if( location.verticalAccuracy < 0 ) {
-            self.AltmLabel.textColor = [UIColor redColor];
-            self.AltftLabel.textColor = [UIColor redColor];
+            self.AltmValue.textColor = [UIColor redColor];
+            self.AltftValue.textColor = [UIColor redColor];
         }
         else {
-            self.AltmLabel.textColor = [UIColor whiteColor];
-            self.AltftLabel.textColor = [UIColor whiteColor];
+            self.AltmValue.textColor = [UIColor whiteColor];
+            self.AltftValue.textColor = [UIColor whiteColor];
         }
 
         
         if( location.course < 0 ) {
-            self.CourseLabel.textColor = [UIColor redColor];
-            self.CourseLabel.text = @"?";
+            self.CourseValue.textColor = [UIColor redColor];
+            self.CourseValue.text = @"?";
         }
         else{
-            self.CourseLabel.textColor = [UIColor whiteColor];
+            self.CourseValue.textColor = [UIColor whiteColor];
         }
         
         if( location.speed < 0 )
-            self.SpeedLabel.textColor = [UIColor redColor];
+            self.SpeedValue.textColor = [UIColor redColor];
         else
-            self.SpeedLabel.textColor = [UIColor whiteColor];
+            self.SpeedValue.textColor = [UIColor whiteColor];
         
         //TODO: save data here, once per second
     }
