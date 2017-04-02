@@ -24,7 +24,9 @@
 
 @implementation dataViewController
 
+@synthesize locationManager = _locationManager;
 @synthesize dg;
+
 @synthesize LonValue;
 @synthesize LatValue;
 @synthesize AltmValue;
@@ -50,7 +52,9 @@
     CourseValue.text = @"000.1";
     AltmValue.text = @"47 m";
     AltftValue.text = @"???.? ft";
+    
     [self locationInit];
+    
     debug_msg(5,@"viewDidLoad");
 }
 
@@ -104,17 +108,13 @@
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     debug_msg(4,@"locationManager didUpdateLocations");
     
+    return;
+    
     CLLocation* location = [locations lastObject];
     NSDate* eventDate = location.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     
-    if (fabs(howRecent) < 15.0) {
-        // If the event is recent, do something with it.
-        NSLog(@"latitude %+.6f, longitude %+.6f, altitude %+.6f \n",
-              location.coordinate.latitude,
-              location.coordinate.longitude,
-              location.altitude);
-        
+    
         self.TimeDisplay.text = [dateFormatter stringFromDate:location.timestamp ];
         self.TimeDisplay.textColor = [UIColor whiteColor];
         
@@ -164,7 +164,14 @@
         else
             self.SpeedValue.textColor = [UIColor whiteColor];
         
-        //TODO: save data here, once per second
+    
+    if (fabs(howRecent) < 15.0) {
+        // If the event is recent, do something with it.
+        NSLog(@"latitude %+.6f, longitude %+.6f, altitude %+.6f \n",
+              location.coordinate.latitude,
+              location.coordinate.longitude,
+              location.altitude);
+        //TODO: save data here to a file, once per second
     }
     
     debug_msg(6,@"dataViewControlloer wants to updateView...");

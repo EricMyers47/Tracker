@@ -28,7 +28,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor orangeColor];
     
-    self.mainViewController = [[dataViewController alloc] initWithNibName:@"DisplayWindow" bundle:nil];
+    self.mainViewController = [[dataViewController alloc] initWithNibName:@"DataView" bundle:nil];
     self.window.rootViewController = self.mainViewController;
     [self.window makeKeyAndVisible];
    
