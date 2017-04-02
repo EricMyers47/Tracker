@@ -15,7 +15,8 @@
 
 
 @property (strong,nonatomic) id<UIApplicationDelegate> dg;
-@property (strong, nonatomic) CLLocationManager *locationManager;
+@property (strong, nonatomic)  CLLocationManager *locationManager;
+
 @property (strong,nonatomic)    IBOutlet UILabel *LonValue;
 @property (strong,nonatomic)    IBOutlet UILabel *LatValue;
 @property (strong,nonatomic)    IBOutlet UILabel *AltmValue;

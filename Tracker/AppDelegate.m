@@ -8,38 +8,30 @@
 
 #import "AppDelegate.h"
 
-
-
 @interface AppDelegate (){
     dataViewController* mainViewController;
-
 }
-
 
 @end
 
 
 @implementation AppDelegate
 
-@synthesize window = _window;
-@synthesize mainViewController = _mainViewController;
+@synthesize mainViewController;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    set_debug_level(5);
-   
+    set_debug_level(3);
     debug_msg(1,@"application didFinishLaunchingWithOptions:");
-    
+   
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.mainViewController = [[dataViewController alloc] initWithNibName:@"MainWindow" bundle:nil];
+    self.window.backgroundColor = [UIColor orangeColor];
     
+    self.mainViewController = [[dataViewController alloc] initWithNibName:@"DisplayWindow" bundle:nil];
     self.window.rootViewController = self.mainViewController;
-    [self.window addSubview:mainViewController.view];
     [self.window makeKeyAndVisible];
-    
-    //self.mainViewController = [self.window rootViewController];
-
+   
     // This keeps the screen from going black, but it might eat more power 
     [[UIApplication sharedApplication] setIdleTimerDisabled: YES];
     return YES;

@@ -57,7 +57,7 @@
 
 - (void) updateView {
     // triggered by AppDelegate, this should get latest data and display it
-    debug_msg(2,@"ViewController: updateView");
+    debug_msg(4,@"ViewController: updateView");
 }
 
 #pragma mark -
@@ -102,7 +102,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
-    debug_msg(1,@"locationManager didUpdateLocations");
+    debug_msg(4,@"locationManager didUpdateLocations");
     
     CLLocation* location = [locations lastObject];
     NSDate* eventDate = location.timestamp;
@@ -116,6 +116,7 @@
               location.altitude);
         
         self.TimeDisplay.text = [dateFormatter stringFromDate:location.timestamp ];
+        self.TimeDisplay.textColor = [UIColor whiteColor];
         
         self.LonValue.text = [NSString stringWithFormat:@"%+9.5f",
                               location.coordinate.longitude];
