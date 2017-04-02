@@ -24,6 +24,7 @@
 @property (strong,nonatomic)    IBOutlet UILabel *SpeedValue;
 @property (strong,nonatomic)    IBOutlet UILabel *CourseValue;
 @property (strong,nonatomic)    IBOutlet UILabel *TimeDisplay;
+@property (strong,nonatomic)    IBOutlet UILabel *VersionLabel;
 
 - (void) updateView;
 - (void)locationInit;

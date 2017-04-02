@@ -34,6 +34,7 @@
 @synthesize SpeedValue;
 @synthesize CourseValue;
 @synthesize TimeDisplay;
+@synthesize VersionLabel;
 
 #pragma mark -
 
@@ -55,9 +56,25 @@
     
     [self locationInit];
     
+    // Show Version (Build) numbers
+    
+    NSString* appVersion = [[[NSBundle mainBundle] infoDictionary]
+                            objectForKey:@"CFBundleShortVersionString"];
+    debug_msg(2,@"About: viewDidLoad: App Version: %@", appVersion);
+    
+    NSString* buildNumber = [[[NSBundle mainBundle] infoDictionary]
+                             objectForKey:@"CFBundleVersion"];
+    debug_msg(2,@"About: viewDidLoad: BuildNumber: %@", buildNumber);
+    
+    VersionLabel.text = [NSString stringWithFormat:@"%@ (%@)",
+                         appVersion, buildNumber];
+    debug_msg(5,@"About: viewDidLoad: just set label (I hope).");
+
+    
+    
+    
     debug_msg(5,@"viewDidLoad");
 }
-
 
 - (void) updateView {
     // triggered by AppDelegate, this should get latest data and display it
@@ -108,62 +125,60 @@
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     debug_msg(4,@"locationManager didUpdateLocations");
     
-    return;
-    
     CLLocation* location = [locations lastObject];
     NSDate* eventDate = location.timestamp;
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     
     
-        self.TimeDisplay.text = [dateFormatter stringFromDate:location.timestamp ];
-        self.TimeDisplay.textColor = [UIColor whiteColor];
-        
-        self.LonValue.text = [NSString stringWithFormat:@"%+9.5f",
-                              location.coordinate.longitude];
-        self.LatValue.text = [NSString stringWithFormat:@"%+8.5f",
-                             location.coordinate.latitude];
-        self.AltmValue.text = [NSString stringWithFormat:@"%8.1f",
-                              location.altitude];
-        self.AltftValue.text = [NSString stringWithFormat:@"%8.1f",
-                               location.altitude/0.3048];
-        self.SpeedValue.text = [NSString stringWithFormat:@"%5.1f",
-                               location.speed];
-        self.CourseValue.text = [NSString stringWithFormat:@"%3.0f",
-                               location.course];
-        
-        
-        if( location.horizontalAccuracy < 0 ) {
-            self.LatValue.textColor = [UIColor redColor];
-            self.LonValue.textColor = [UIColor redColor];
-        }
-        else {
-            self.LatValue.textColor = [UIColor whiteColor];
-            self.LonValue.textColor = [UIColor whiteColor];
-        }
-        
-        if( location.verticalAccuracy < 0 ) {
-            self.AltmValue.textColor = [UIColor redColor];
-            self.AltftValue.textColor = [UIColor redColor];
-        }
-        else {
-            self.AltmValue.textColor = [UIColor whiteColor];
-            self.AltftValue.textColor = [UIColor whiteColor];
-        }
-
-        
-        if( location.course < 0 ) {
-            self.CourseValue.textColor = [UIColor redColor];
-            self.CourseValue.text = @"?";
-        }
-        else{
-            self.CourseValue.textColor = [UIColor whiteColor];
-        }
-        
-        if( location.speed < 0 )
-            self.SpeedValue.textColor = [UIColor redColor];
-        else
-            self.SpeedValue.textColor = [UIColor whiteColor];
-        
+    self.TimeDisplay.text = [dateFormatter stringFromDate:location.timestamp ];
+    self.TimeDisplay.textColor = [UIColor whiteColor];
+    
+    self.LonValue.text = [NSString stringWithFormat:@"%+9.5f",
+                          location.coordinate.longitude];
+    self.LatValue.text = [NSString stringWithFormat:@"%+8.5f",
+                          location.coordinate.latitude];
+    self.AltmValue.text = [NSString stringWithFormat:@"%8.1f",
+                           location.altitude];
+    self.AltftValue.text = [NSString stringWithFormat:@"%8.1f",
+                            location.altitude/0.3048];
+    self.SpeedValue.text = [NSString stringWithFormat:@"%5.1f",
+                            location.speed];
+    self.CourseValue.text = [NSString stringWithFormat:@"%3.0f",
+                             location.course];
+    
+    
+    if( location.horizontalAccuracy < 0 ) {
+        self.LatValue.textColor = [UIColor redColor];
+        self.LonValue.textColor = [UIColor redColor];
+    }
+    else {
+        self.LatValue.textColor = [UIColor whiteColor];
+        self.LonValue.textColor = [UIColor whiteColor];
+    }
+    
+    if( location.verticalAccuracy < 0 ) {
+        self.AltmValue.textColor = [UIColor redColor];
+        self.AltftValue.textColor = [UIColor redColor];
+    }
+    else {
+        self.AltmValue.textColor = [UIColor whiteColor];
+        self.AltftValue.textColor = [UIColor whiteColor];
+    }
+    
+    
+    if( location.course < 0 ) {
+        self.CourseValue.textColor = [UIColor redColor];
+        self.CourseValue.text = @"?";
+    }
+    else{
+        self.CourseValue.textColor = [UIColor whiteColor];
+    }
+    
+    if( location.speed < 0 )
+        self.SpeedValue.textColor = [UIColor redColor];
+    else
+        self.SpeedValue.textColor = [UIColor whiteColor];
+    
     
     if (fabs(howRecent) < 15.0) {
         // If the event is recent, do something with it.
