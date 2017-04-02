@@ -71,8 +71,6 @@
     debug_msg(5,@"About: viewDidLoad: just set label (I hope).");
 
     
-    
-    
     debug_msg(5,@"viewDidLoad");
 }
 
