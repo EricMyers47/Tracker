@@ -68,15 +68,14 @@
     
     VersionLabel.text = [NSString stringWithFormat:@"%@ (%@)",
                          appVersion, buildNumber];
-    debug_msg(5,@"About: viewDidLoad: just set label (I hope).");
-
-    
     debug_msg(5,@"viewDidLoad");
 }
 
+
+
 - (void) updateView {
     // triggered by AppDelegate, this should get latest data and display it
-    debug_msg(4,@"ViewController: updateView");
+    debug_msg(6,@"ViewController: updateView");
 }
 
 #pragma mark -
@@ -100,10 +99,12 @@
         debug_msg(1,@"Initial locationManager was nil");
         _locationManager = [[CLLocationManager alloc] init];
     }
-    // set/reset:
+
+
+    // Initialize Navigation services
+
     _locationManager.delegate = self;
     _locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-    // locationManager.distanceFilter = 1; // meters
     
     // iOS 8 and beyond require that you request authorization
     if( [self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
@@ -112,39 +113,41 @@
     }
     
     [self.locationManager startUpdatingLocation];
-    debug_msg(2,@"Location service started updating.");
+    debug_msg(3,@"Location service started updating.");
 }
 
 
-
-
+// didUpdateLocations: is called whenever there is an update to
+// the current location data.
 
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     debug_msg(4,@"locationManager didUpdateLocations");
-    
+
+    // Transfer newest data to the display
+
     CLLocation* location = [locations lastObject];
-    NSDate* eventDate = location.timestamp;
-    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
-    
-    
+
+
+
     self.TimeDisplay.text = [dateFormatter stringFromDate:location.timestamp ];
     self.TimeDisplay.textColor = [UIColor whiteColor];
     
     self.LonValue.text = [NSString stringWithFormat:@"%+9.5f",
                           location.coordinate.longitude];
-    self.LatValue.text = [NSString stringWithFormat:@"%+8.5f",
+    self.LatValue.text = [NSString stringWithFormat:@"%8.5f",
                           location.coordinate.latitude];
-    self.AltmValue.text = [NSString stringWithFormat:@"%8.1f",
+    self.AltmValue.text = [NSString stringWithFormat:@"%6.0f",
                            location.altitude];
-    self.AltftValue.text = [NSString stringWithFormat:@"%8.1f",
-                            location.altitude/0.3048];
+    self.AltftValue.text = [NSString stringWithFormat:@"%6.0f",
+                            (location.altitude/0.3048)];
     self.SpeedValue.text = [NSString stringWithFormat:@"%5.1f",
                             location.speed];
     self.CourseValue.text = [NSString stringWithFormat:@"%3.0f",
                              location.course];
-    
-    
+
+    // Data validity:  if data are not valid, change text color to red
+
     if( location.horizontalAccuracy < 0 ) {
         self.LatValue.textColor = [UIColor redColor];
         self.LonValue.textColor = [UIColor redColor];
@@ -176,8 +179,9 @@
         self.SpeedValue.textColor = [UIColor redColor];
     else
         self.SpeedValue.textColor = [UIColor whiteColor];
-    
-    
+
+    NSDate* eventDate = location.timestamp;
+    NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     if (fabs(howRecent) < 15.0) {
         // If the event is recent, do something with it.
         NSLog(@"latitude %+.6f, longitude %+.6f, altitude %+.6f \n",
@@ -188,7 +192,7 @@
     }
     
     debug_msg(6,@"dataViewControlloer wants to updateView...");
-    [self updateView];
+    //[self updateView];
 }
 
 
@@ -201,13 +205,13 @@
 }
 
 
-
 #pragma mark -
 #pragma mark Memory
 
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    debug_msg(0,@"!ViewController: didReceiveMemoryWarning !");
     // Dispose of any resources that can be recreated.
 }
 
