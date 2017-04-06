@@ -128,8 +128,6 @@
 
     CLLocation* location = [locations lastObject];
 
-
-
     self.TimeDisplay.text = [dateFormatter stringFromDate:location.timestamp ];
     self.TimeDisplay.textColor = [UIColor whiteColor];
     
@@ -184,7 +182,7 @@
     NSTimeInterval howRecent = [eventDate timeIntervalSinceNow];
     if (fabs(howRecent) < 15.0) {
         // If the event is recent, do something with it.
-        NSLog(@"latitude %+.6f, longitude %+.6f, altitude %+.6f \n",
+        debug_msg(5,@"latitude %+.6f, longitude %+.6f, altitude %+.6f \n",
               location.coordinate.latitude,
               location.coordinate.longitude,
               location.altitude);
