@@ -7,19 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
-#import "ViewController.h"
+#import "DataViewController.h"
 #import "debug_msg.h"
+
+@class myViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
                                       
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) dataViewController *navViewController;
-
-
-
--(void)locationInit;
+@property (strong, nonatomic) dataViewController *mainViewController;
+//@property (strong, nonatomic) UINavigationController *navController;
 
 @end
 
