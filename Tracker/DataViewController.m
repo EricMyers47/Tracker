@@ -6,12 +6,15 @@
 //  Copyright © 2017 EricMyers.com. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "DataViewController.h"
 
 @interface dataViewController (){
     id<UIApplicationDelegate> dg;
     CLLocationManager  *locationManager;
     NSDateFormatter    *dateFormatter;
+    NSString*       filePath;
+    NSFileHandle*   fileHandle;
+
     IBOutlet UILabel *LonValue;
     IBOutlet UILabel *LatValue;
     IBOutlet UILabel *AltmValue;
@@ -19,6 +22,7 @@
     IBOutlet UILabel *SpeedValue;
     IBOutlet UILabel *CourseValue;
     IBOutlet UILabel *TimeDisplay;
+    
 }
 @end
 
@@ -26,6 +30,8 @@
 
 @synthesize locationManager = _locationManager;
 @synthesize dg;
+@synthesize filePath;
+@synthesize fileHandle;
 
 @synthesize LonValue;
 @synthesize LatValue;
@@ -35,6 +41,7 @@
 @synthesize CourseValue;
 @synthesize TimeDisplay;
 @synthesize VersionLabel;
+
 
 #pragma mark -
 
@@ -54,7 +61,17 @@
     AltmValue.text = @"47 m";
     AltftValue.text = @"???.? ft";
     
+    // Initialize locations services
+    
     [self locationInit];
+    
+    // Initialize log file
+    // TODO: ues the NSFileManager methods URLsForDirectory:inDomains:  instead
+    NSArray  *documentPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [documentPaths objectAtIndex:0];
+    self.filePath = [documentsDirectory stringByAppendingPathComponent:@"Tracker.log"];
+    debug_msg(2,self.filePath);
+    self.fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
     
     // Show Version (Build) numbers
     
@@ -78,8 +95,20 @@
     debug_msg(6,@"ViewController: updateView");
 }
 
+
+- (IBAction)shieldPressed:(UIButton *)sender {
+    // triggered by pressing the center shield button
+    debug_msg(1,@"+ pressed shield button.");
+    debug_msg(2,@"  Gonna upload file.");
+    debug_msg(3,self.filePath);
+}
+
+
+
+
 #pragma mark -
 #pragma mark Location Service
+
 
 -(void) locationInit {
     if( [CLLocationManager locationServicesEnabled] != YES ){
@@ -117,6 +146,7 @@
 }
 
 
+
 // didUpdateLocations: is called whenever there is an update to
 // the current location data.
 
@@ -127,6 +157,18 @@
     // Transfer newest data to the display
 
     CLLocation* location = [locations lastObject];
+    
+    // Log to file
+
+    NSString* line = [NSString stringWithFormat:@"%f,%f,%.1f",
+                      location.coordinate.longitude,
+                      location.coordinate.latitude,
+                      location.altitude];
+    debug_msg(2,line);
+    [self.fileHandle seekToEndOfFile];
+    [self.fileHandle writeData:[line dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    // UPdate display
 
     self.TimeDisplay.text = [dateFormatter stringFromDate:location.timestamp ];
     self.TimeDisplay.textColor = [UIColor whiteColor];
@@ -189,7 +231,8 @@
         //TODO: save data here to a file, once per second
     }
     
-    debug_msg(6,@"dataViewControlloer wants to updateView...");
+    //If this is not in the view controller then tell it to update.
+    //debug_msg(6,@"dataViewControlloer wants to updateView...");
     //[self updateView];
 }
 

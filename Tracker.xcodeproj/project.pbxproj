@@ -12,7 +12,7 @@
 		B694F38A1E91318800503C07 /* DataView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B694F3891E91318800503C07 /* DataView.xib */; };
 		B6CCE0641E87F75900218D8E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CCE0631E87F75900218D8E /* main.m */; };
 		B6CCE0671E87F75900218D8E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CCE0661E87F75900218D8E /* AppDelegate.m */; };
-		B6CCE06A1E87F75900218D8E /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CCE0691E87F75900218D8E /* ViewController.m */; };
+		B6CCE06A1E87F75900218D8E /* DataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CCE0691E87F75900218D8E /* DataViewController.m */; };
 		B6CCE06F1E87F75900218D8E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6CCE06E1E87F75900218D8E /* Assets.xcassets */; };
 		B6CCE07D1E87F75900218D8E /* TrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CCE07C1E87F75900218D8E /* TrackerTests.m */; };
 		B6CCE0881E87F75900218D8E /* TrackerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B6CCE0871E87F75900218D8E /* TrackerUITests.m */; };
@@ -45,8 +45,8 @@
 		B6CCE0631E87F75900218D8E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B6CCE0651E87F75900218D8E /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B6CCE0661E87F75900218D8E /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		B6CCE0681E87F75900218D8E /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		B6CCE0691E87F75900218D8E /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		B6CCE0681E87F75900218D8E /* DataViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataViewController.h; sourceTree = "<group>"; };
+		B6CCE0691E87F75900218D8E /* DataViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataViewController.m; sourceTree = "<group>"; };
 		B6CCE06E1E87F75900218D8E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6CCE0731E87F75900218D8E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B6CCE0781E87F75900218D8E /* TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,8 +110,8 @@
 			children = (
 				B6CCE0651E87F75900218D8E /* AppDelegate.h */,
 				B6CCE0661E87F75900218D8E /* AppDelegate.m */,
-				B6CCE0681E87F75900218D8E /* ViewController.h */,
-				B6CCE0691E87F75900218D8E /* ViewController.m */,
+				B6CCE0681E87F75900218D8E /* DataViewController.h */,
+				B6CCE0691E87F75900218D8E /* DataViewController.m */,
 				B694F3891E91318800503C07 /* DataView.xib */,
 				B6CCE06E1E87F75900218D8E /* Assets.xcassets */,
 				B6CCE0731E87F75900218D8E /* Info.plist */,
@@ -293,7 +293,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6CCE06A1E87F75900218D8E /* ViewController.m in Sources */,
+				B6CCE06A1E87F75900218D8E /* DataViewController.m in Sources */,
 				B6CCE0671E87F75900218D8E /* AppDelegate.m in Sources */,
 				B6CCE0641E87F75900218D8E /* main.m in Sources */,
 				B6230D521E880F2000611302 /* debug_msg.m in Sources */,

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ViewController.h"
+#import "DataViewController.h"
 #import "debug_msg.h"
 
 @class myViewController;

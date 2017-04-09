@@ -14,8 +14,10 @@
 @interface dataViewController : UIViewController <CLLocationManagerDelegate>
 
 
-@property (strong,nonatomic) id<UIApplicationDelegate> dg;
+@property (strong, nonatomic)  id<UIApplicationDelegate> dg;
 @property (strong, nonatomic)  CLLocationManager *locationManager;
+@property (strong, nonatomic)  NSString*     filePath;
+@property (strong, nonatomic)  NSFileHandle* fileHandle;
 
 @property (strong,nonatomic)    IBOutlet UILabel *LonValue;
 @property (strong,nonatomic)    IBOutlet UILabel *LatValue;
@@ -28,5 +30,7 @@
 
 - (void) updateView;
 - (void)locationInit;
+
+- (IBAction)shieldPressed:(UIButton *)sender;
 @end
 
