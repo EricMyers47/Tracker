@@ -19,13 +19,17 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0.03</string>
 	<key>CFBundleVersion</key>
-	<string>140</string>
+	<string>155</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Please enable Location services.</string>
+	<key>UILaunchImageFile</key>
+	<string>TrackerLaunch.PNG</string>
+	<key>UILaunchStoryboardName</key>
+	<string>DataView</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
